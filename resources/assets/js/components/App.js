@@ -1,6 +1,56 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class App extends Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			body: '',
+			posts: {},
+		};
+
+		// Set up this pointers in each user defined function
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleBodyChange = this.handleBodyChange.bind(this);
+		this.postData = this.postData.bind(this);
+	};
+
+	// Take whatever content is in the state body and send it to the server
+	handleSubmit (event) {
+		event.preventDefault();
+		this.postData();
+		// event.currentTarget.reset();
+		this.setState({
+			body: '',
+		})
+	};
+
+	// Send the state body to the server
+	// Because this isn't called from jsx, it actually doesn't need to be bound to this
+	postData() {
+		axios.post('/posts', {
+			body: this.state.body
+		})
+		.then( (response) => {
+			const copyOfPosts = { ...this.state.posts };
+			copyOfPosts[response['data']['id']] = response.data;
+			this.setState({
+				posts: copyOfPosts,
+			});
+		})
+		.catch(function(error) {
+			console.error(error);
+		});
+	}
+
+	// Dynamically update the state body as it changes in the textarea
+	handleBodyChange (event) {
+		this.setState({
+			body: event.target.value
+		})
+	}
+
 	render() {
 		return (
 			<div className="container">
@@ -10,12 +60,14 @@ class App extends Component {
 							<div className="card-header">Tweet something</div>
 
 							<div className="card-body">
-								<form>
+								<form onSubmit={this.handleSubmit}>
 									<div className="form-group">
 										<textarea 
+											onChange={this.handleBodyChange}
+											value={this.state.body}
 											className="form-control" 
 											rows="5" 
-											maxlength="140" 
+											maxLength="140" 
 											placeholder="What's up?" 
 											required
 										/>
@@ -31,10 +83,13 @@ class App extends Component {
 					</div>
 					<div className="col-md-6">
 						<div className="card">
-							<div className="card-header">App Component</div>
+							<div className="card-header">Recent tweets</div>
 
 							<div className="card-body">
-								I'm an App component!
+								{Object.keys(this.state.posts).map(postId => 
+									<div key={postId}>
+										{this.state.posts[postId].body}
+									</div>)}
 							</div>
 						</div>
 					</div>
