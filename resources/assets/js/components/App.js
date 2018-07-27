@@ -87,8 +87,20 @@ class App extends Component {
 
 							<div className="card-body">
 								{Object.keys(this.state.posts).map(postId => 
-									<div key={postId}>
-										{this.state.posts[postId].body}
+									<div key={postId} className="media">
+										<div className="media-left">
+											<img className="media-object mr-2" src={this.state.posts[postId].user.avatar}/>
+										</div>
+										<div className="media-body">
+											<div className="user">
+												<a href="#">
+													<strong>{this.state.posts[postId].user.username}:</strong>
+												</a>
+											</div>
+											<p>
+												{this.state.posts[postId].body}
+											</p>
+										</div>
 									</div>)}
 							</div>
 						</div>
