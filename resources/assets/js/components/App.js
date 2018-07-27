@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 class App extends Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -93,7 +92,7 @@ class App extends Component {
 										</div>
 										<div className="media-body">
 											<div className="user">
-												<a href="#">
+												<a href={`/users/${this.state.posts[postId].user.username}`}>
 													<strong>{this.state.posts[postId].user.username}:</strong>
 												</a>
 											</div>

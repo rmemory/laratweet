@@ -18,6 +18,8 @@ class User extends Authenticatable
         'username', 'email', 'password',
 	];
 	
+	/* This will cause the return value from the getAvatarAttribute
+	   function to be applied to the user object returned */
 	protected $appends = ['avatar'];
 
     /**
@@ -39,5 +41,9 @@ class User extends Authenticatable
 
 	public function getAvatarAttribute() {
 		return $this->getAvatar();
+	}
+
+	public function getRouteKeyName() {
+		return 'username';
 	}
 }

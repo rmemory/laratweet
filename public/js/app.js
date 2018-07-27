@@ -55920,7 +55920,7 @@ var App = function (_Component) {
 												{ className: 'user' },
 												__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 													'a',
-													{ href: '#' },
+													{ href: '/users/' + _this3.state.posts[postId].user.username },
 													__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 														'strong',
 														null,
